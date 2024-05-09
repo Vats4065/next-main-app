@@ -1,7 +1,22 @@
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 function RestaurantHeader() {
+  const getUser = localStorage.getItem("login");
+
+
+  console.log("srgevrerthte",getUser);
+
+  const logout = () => {
+    localStorage.removeItem("login");
+    localStorage.removeItem("signup");
+    window.location.reload();
+  };
+
+  // const getUser = JSON.parse(localStorage.getItem("login"));
+  // setGetLogin(getUser);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -17,34 +32,52 @@ function RestaurantHeader() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" href="#">
             <img
-              src="https://png.pngtree.com/png-clipart/20220604/original/pngtree-restaurant-logo-png-image_7932128.png" width={75} height={70}
+              src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/227_Netflix_logo-512.png"
+              width={60}
+              height={55}
               alt="image"
             />
-          </a>
+          </Link>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link fs-4 active" aria-current="page" href="#">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fs-4" href="#">
-                  Features
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fs-4" href="#">
-                  Pricing
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fs-4" href="#">
-                  Contact
-                </a>
-              </li>
+              {getUser == null ? (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link fs-5 "
+                      aria-current="page"
+                      href="/signup"
+                    >
+                      Signup
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link fs-5" href="/login">
+                      Login
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link fs-5" href="/">
+                      Home
+                    </Link>
+                  </li>
+                  {/* <li className="nav-item">
+                    <Link className="nav-link fs-5" href="#">
+                      Cart
+                    </Link>
+                  </li> */}
+                  <li className="nav-item">
+                    <Link className="nav-link fs-5" href="" onClick={logout}>
+                      Logout
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

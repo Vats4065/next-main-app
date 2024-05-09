@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+// import "~font-awesome/scss/font-awesome.scss";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -11,8 +12,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head><link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" /></head>
-      <body className={inter.className}>{children}</body>
+      <head> <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      /><link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" /></head>
+      <body className={inter.className}>
+     
+      {children}
+      </body>
     </html>
   );
 }

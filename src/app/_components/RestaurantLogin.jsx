@@ -1,7 +1,45 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 function RestaurantLogin() {
+  const [field, setField] = useState({
+    email: "",
+    password: "",
+  });
+
+  const router = useRouter();
+
+  const handleChange = (e) => {
+    setField(() => ({
+      ...field,
+      [e.target.name]: e.target.value,
+    }));
+    console.log("000000", field);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const api = await fetch("http://localhost:8080/login", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(field),
+    });
+    console.log();
+    if ( api.status === 200) {
+      alert("user login successfully");
+      // const result = api;
+      localStorage.setItem("login", JSON.stringify(api.status));
+      router.push("/");
+    } else {
+      alert("enter correct details");
+    }
+  };
+
+
   return (
     <>
       <div className="row text-center">
@@ -11,7 +49,7 @@ function RestaurantLogin() {
           </div>
         </div>
       </div>
-      <form action="#!">
+      <form action="" onSubmit={handleSubmit}>
         <div className="row gy-3 overflow-hidden">
           <div className="col-12">
             <div className="form-floating mb-3">
@@ -22,6 +60,8 @@ function RestaurantLogin() {
                 id="email"
                 placeholder="name@example.com"
                 required
+                onChange={handleChange}
+                value={field.email}
               />
               <label for="email" className="form-label">
                 Email
@@ -35,9 +75,10 @@ function RestaurantLogin() {
                 className="form-control"
                 name="password"
                 id="password"
-                value=""
                 placeholder="Password"
                 required
+                onChange={handleChange}
+                value={field.password}
               />
               <label for="password" className="form-label">
                 Password

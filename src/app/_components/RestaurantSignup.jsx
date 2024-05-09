@@ -1,21 +1,50 @@
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 function RestaurantSignup() {
+  const [field, setField] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
+
+  const router = useRouter();
+
+  const handleChange = (e) => {
+    setField(() => ({
+      ...field,
+      [e.target.name]: e.target.value,
+    }));
+    console.log("000000", field);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const api = await fetch("http://localhost:8080/signup", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(field),
+    });
+    console.log(api);
+    if (api.status === 200) {
+      alert("user signup successfully");
+      // const result = api;
+      localStorage.setItem("login", JSON.stringify(api.status));
+      router.push("/login");
+    } else {
+      alert("field");
+    }
+  };
+
   return (
     <>
       <div className="row">
         <div className="col-12">
           <div className="mb-5">
-            <div className="text-center mb-4">
-              <a href="#!">
-                {/* <img
-                              src="./assets/img/bsb-logo.svg"
-                              
-                              width="175"
-                              height="57"
-                            /> */}
-              </a>
-            </div>
             <h2 className="h4 text-center">Registration</h2>
             <h3 className="fs-6 fw-normal text-secondary text-center m-0">
               Enter your details to register
@@ -23,17 +52,19 @@ function RestaurantSignup() {
           </div>
         </div>
       </div>
-      <form action="#!">
+      <form action="" onSubmit={handleSubmit}>
         <div className="row gy-3 overflow-hidden">
           <div className="col-12">
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                name="firstName"
+                name="firstname"
                 id="firstName"
                 placeholder="First Name"
                 required
+                onChange={handleChange}
+                value={field.firstname}
               />
               <label for="firstName" className="form-label">
                 First Name
@@ -45,10 +76,12 @@ function RestaurantSignup() {
               <input
                 type="text"
                 className="form-control"
-                name="lastName"
+                name="lastname"
                 id="lastName"
                 placeholder="First Name"
                 required
+                onChange={handleChange}
+                value={field.lastname}
               />
               <label for="lastName" className="form-label">
                 Last Name
@@ -58,12 +91,13 @@ function RestaurantSignup() {
           <div className="col-12">
             <div className="form-floating mb-3">
               <input
-                type="email"
+                type="text"
                 className="form-control"
                 name="email"
-                id="email"
                 placeholder="name@example.com"
                 required
+                onChange={handleChange}
+                value={field.email}
               />
               <label for="email" className="form-label">
                 Email
@@ -77,39 +111,16 @@ function RestaurantSignup() {
                 className="form-control"
                 name="password"
                 id="password"
-                value=""
                 placeholder="Password"
                 required
+                onChange={handleChange}
+                value={field.password}
               />
               <label for="password" className="form-label">
                 Password
               </label>
             </div>
           </div>
-          {/* <div className="col-12">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            name="iAgree"
-                            id="iAgree"
-                            required
-                          />
-                          <label
-                            className="form-check-label text-secondary"
-                            for="iAgree"
-                          >
-                            I agree to the{" "}
-                            <a
-                              href="#!"
-                              className="link-primary text-decoration-none"
-                            >
-                              terms and conditions
-                            </a>
-                          </label>
-                        </div>
-                      </div> */}
           <div className="col-12">
             <div className="d-grid">
               <button className="btn bsb-btn-xl btn-primary" type="submit">
